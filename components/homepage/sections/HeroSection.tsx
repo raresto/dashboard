@@ -51,7 +51,7 @@ export const HeroSection = () => {
           >
             The fastest way to
             <br />
-            build web3 apps.
+            build with web3
           </Heading>
           <Heading
             as="h3"
@@ -59,8 +59,7 @@ export const HeroSection = () => {
             textAlign={{ base: "center", lg: "left" }}
             maxW="500px"
           >
-            SDKs in every language, smart contracts, tools, and infrastructure
-            for web3 development.
+            Everything you need for web3 development, all in one place.
           </Heading>
 
           <LightMode>
