@@ -3,11 +3,12 @@ import {
   Linea,
   Arbitrum,
   Polygon,
-  /*   Mumbai, */
+  // Mumbai,
 } from "@thirdweb-dev/chains";
+import { StaticImageData } from "next/image";
 
 export const blankDropAllowedNetworks = [
-  /*   Mumbai, */
+  // Mumbai,
   Polygon,
   Avalanche,
   Linea,
@@ -16,27 +17,29 @@ export const blankDropAllowedNetworks = [
 
 export const blankDropNetworkMapping: Record<
   BlankDropAllowedNetworksSlugs,
-  { contractAddress: string; image: string }
+  { contractAddress: string; image: StaticImageData }
 > = {
-  /*   [Mumbai.slug]: {
-    contractAddress: "0x2602E80ce4e70A4A17afDe1C34fFA8A4D3901F72",
-    image: "ipfs://QmZE7KNwYiNHLuibdadcmLk2vdaAU9DByqs3fd3vdmkqKy/cookie.webp",
-  }, */
+  // [Mumbai.slug]: {
+  //   contractAddress: "0x2602E80ce4e70A4A17afDe1C34fFA8A4D3901F72",
+  //   image: require("../../public/assets/paper-drop/paper_polygon.png"),
+  // },
   [Polygon.slug]: {
     contractAddress: "0x0",
-    image: "ipfs://QmZE7KNwYiNHLuibdadcmLk2vdaAU9DByqs3fd3vdmkqKy/cookie.webp",
+    image: require("../../public/assets/paper-drop/paper_polygon.png"),
   },
   [Avalanche.slug]: {
     contractAddress: "0x0",
-    image: "ipfs://QmZE7KNwYiNHLuibdadcmLk2vdaAU9DByqs3fd3vdmkqKy/cookie.webp",
+    // TODO update
+    image: require("../../public/assets/paper-drop/paper_polygon.png"),
   },
   [Linea.slug]: {
     contractAddress: "0x0",
-    image: "ipfs://QmZE7KNwYiNHLuibdadcmLk2vdaAU9DByqs3fd3vdmkqKy/cookie.webp",
+    // TODO update
+    image: require("../../public/assets/paper-drop/paper_polygon.png"),
   },
   [Arbitrum.slug]: {
     contractAddress: "0x0",
-    image: "ipfs://QmZE7KNwYiNHLuibdadcmLk2vdaAU9DByqs3fd3vdmkqKy/cookie.webp",
+    image: require("../../public/assets/paper-drop/paper_arbitrum.png"),
   },
 };
 

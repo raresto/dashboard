@@ -3,7 +3,7 @@ import {
   DashboardThirdwebProviderProps,
 } from "./providers";
 import { EVMContractInfoProvider } from "@3rdweb-sdk/react";
-import { Flex, SimpleGrid } from "@chakra-ui/react";
+
 import { useWallet as useSolanaWallet } from "@solana/wallet-adapter-react";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { DehydratedState, Hydrate, QueryClient } from "@tanstack/react-query";
@@ -12,7 +12,6 @@ import {
   Persister,
 } from "@tanstack/react-query-persist-client";
 import {
-  ConnectWallet,
   shouldNeverPersistQuery,
   useAddress,
   useBalance,
@@ -23,11 +22,12 @@ import { useSDK } from "@thirdweb-dev/react/solana";
 import { ConfigureNetworkModal } from "components/configure-networks/ConfigureNetworkModal";
 import { DeployModalProvider } from "components/contract-components/contract-deploy-form/deploy-context-modal";
 import { AppShell, AppShellProps } from "components/layout/app-shell";
-import { PrivacyNotice } from "components/notices/PrivacyNotice";
+import { RequireSignin } from "components/notices/PrivacyNotice";
+import { SanctionedAddressesChecker } from "components/safety/sanctioned-addresses";
 import { AllChainsProvider } from "contexts/all-chains";
 import { ChainsProvider } from "contexts/configured-chains";
 import { ErrorProvider } from "contexts/error-handler";
-import { isSanctionedAddress } from "data/eth-sanctioned-addresses";
+
 import { useAddRecentlyUsedChainId } from "hooks/chains/recentlyUsedChains";
 import {
   useIsNetworkConfigModalOpen,
@@ -35,8 +35,7 @@ import {
 } from "hooks/networkConfigModal";
 import { del, get, set } from "idb-keyval";
 import posthog from "posthog-js";
-import React, { useEffect, useMemo, useState } from "react";
-import { Heading } from "tw-components";
+import React, { useEffect, useState } from "react";
 import { ComponentWithChildren } from "types/component-with-children";
 import { bigNumberReplacer } from "utils/bignumber";
 import { isBrowser } from "utils/isBrowser";
@@ -136,7 +135,7 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
                   <DashboardThirdwebProvider>
                     <SanctionedAddressesChecker>
                       <PHIdentifier />
-                      <PrivacyNotice />
+                      <RequireSignin />
                       <AppShell {...props} />
                       <ConfigModal />
                     </SanctionedAddressesChecker>
@@ -150,34 +149,6 @@ export const AppLayout: ComponentWithChildren<AppLayoutProps> = (props) => {
     </PersistQueryClientProvider>
   );
 };
-
-const SanctionedAddressesChecker: ComponentWithChildren = ({ children }) => {
-  const address = useAddress();
-  const isBlocked = useMemo(() => {
-    return address && isSanctionedAddress(address);
-  }, [address]);
-  if (isBlocked) {
-    return (
-      <SimpleGrid
-        position="fixed"
-        top={0}
-        right={0}
-        bottom={0}
-        left={0}
-        placeItems="center"
-        bg="black"
-        zIndex="banner"
-      >
-        <Flex gap={4} direction="column" align="center">
-          <Heading as="p">Address is blocked</Heading>
-          <ConnectWallet auth={{ loginOptional: true }} />
-        </Flex>
-      </SimpleGrid>
-    );
-  }
-  return <>{children}</>;
-};
-
 function ConfigModal() {
   const isNetworkConfigModalOpen = useIsNetworkConfigModalOpen();
   const setIsNetworkConfigModalOpen = useSetIsNetworkConfigModalOpen();

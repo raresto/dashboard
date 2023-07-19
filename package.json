@@ -59,6 +59,7 @@
     "next": "^13.4.4",
     "next-plausible": "^3.9.1",
     "next-seo": "^6.1.0",
+    "next-usequerystate": "^1.7.3",
     "node-vibrant": "^3.2.1-alpha.1",
     "papaparse": "^5.3.1",
     "pluralize": "^8.0.0",

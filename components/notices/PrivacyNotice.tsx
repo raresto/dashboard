@@ -15,7 +15,7 @@ import {
   PopoverTrigger,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { useWallet } from "@solana/wallet-adapter-react";
+
 import {
   useAddress,
   useDisconnect,
@@ -31,10 +31,15 @@ import { Button, Card, Heading, Text, TrackedLink } from "tw-components";
 
 const TRACKING_CATEGORY = "notice";
 
-export const PrivacyNotice: React.FC = () => {
+interface RequireSigninProps {
+  product?: string;
+}
+
+export const RequireSignin: React.FC<RequireSigninProps> = ({
+  product = "thirdweb dashboard",
+}) => {
   const track = useTrack();
   const evmAddress = useAddress();
-  const solAddress = useWallet().publicKey?.toBase58();
   const walletId = useWalletConfig()?.id;
   const { isLoading, isLoggedIn } = useUser();
   const { login, isLoading: loginLoading } = useLogin();
@@ -42,17 +47,10 @@ export const PrivacyNotice: React.FC = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const initialFocusRef = useRef<HTMLButtonElement>(null);
 
-  if (!evmAddress && !solAddress) {
+  if (!evmAddress) {
     // if neither solana or evm wallets are connected then don't show the notice
     return null;
   }
-
-  // temporary
-  if (!evmAddress && solAddress) {
-    // don't show the notice if it's solana
-    return null;
-  }
-
   if (isLoading || isLoggedIn) {
     // if the user is logged in or we're loading the user then don't show the notice
     return null;
@@ -78,12 +76,11 @@ export const PrivacyNotice: React.FC = () => {
             </AspectRatio>
           </Center>
           <Heading size="subtitle.md" textAlign="center">
-            Welcome to the <strong>thirdweb dashboard</strong>
+            Welcome to the <strong>{product}</strong>
           </Heading>
 
           <Text textAlign="center">
-            By connecting your wallet and using the thirdweb dashboard, you
-            agree to our{" "}
+            By connecting your wallet and using the {product}, you agree to our{" "}
             <TrackedLink
               href="/tos"
               isExternal
