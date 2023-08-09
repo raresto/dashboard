@@ -340,6 +340,7 @@ export function usePublishedContractsFromDeploy(
     },
     {
       enabled: !!contractAddress && !!cId && !!chainInfo,
+      retry: false,
     },
   );
 }
